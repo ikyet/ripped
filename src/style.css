@@ -1,0 +1,395 @@
+:root {
+  --paper: #fbfaf8;
+  --paper-2: #f3f1ec;
+  --ink: #131210;
+  --ink-soft: #2a2822;
+  --line: #e4e0d6;
+  --mute: #948f84;
+  --mute-2: #55524a;
+
+  --font-sans: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --page-max: 1440px;
+  --gutter: clamp(20px, 4vw, 56px);
+}
+
+/* RIPPED commits to a single visual world — a paper-white editorial page,
+   the way a print fashion title stays the same on any device. The toggle
+   still gets a (very small) dark treatment rather than being ignored. */
+:root[data-theme="dark"] {
+  --paper: #100f0d;
+  --paper-2: #171613;
+  --ink: #f4f2ec;
+  --ink-soft: #d8d4c8;
+  --line: #302d27;
+  --mute: #75726a;
+  --mute-2: #b3afa4;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; } /* Lenis owns smoothing */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+img, svg { max-width: 100%; display: block; }
+
+.wrap {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  position: relative;
+}
+
+h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
+
+[data-reveal] { opacity: 0; }
+
+.label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute-2);
+}
+
+/* ---------- nav ---------- */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px var(--gutter);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(6px);
+}
+.nav-logo {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  will-change: transform, opacity;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+.nav-link {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 3px;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.nav-link:hover::after { right: 0; }
+.nav-bag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+}
+.nav-bag svg { width: 15px; height: 17px; }
+@media (max-width: 640px) {
+  .nav-link:not(.nav-bag) { display: none; }
+}
+
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 120px var(--gutter) 80px;
+}
+.hero-kicker {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mute-2);
+  margin-bottom: 28px;
+}
+.hero-wordmark {
+  font-size: clamp(4.5rem, 15vw, 12rem);
+  font-weight: 200;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  text-transform: uppercase;
+  color: var(--ink);
+  will-change: transform;
+}
+.hero-figure {
+  position: absolute;
+  top: 50%;
+  right: clamp(-4vw, 2vw, 6vw);
+  width: min(46vw, 620px);
+  aspect-ratio: 3 / 4;
+  transform: translateY(-46%);
+  z-index: -1;
+}
+@media (max-width: 860px) {
+  .hero-figure { width: 78vw; opacity: 0.9; }
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: var(--gutter);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-scroll .line {
+  width: 1px;
+  height: 46px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.hero-scroll .line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: translateY(-100%);
+  animation: scrollLine 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll .line::after { animation: none; transform: translateY(0); }
+}
+@keyframes scrollLine {
+  0% { transform: translateY(-100%); }
+  50% { transform: translateY(0%); }
+  100% { transform: translateY(100%); }
+}
+.hero-scroll span {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mute);
+  writing-mode: vertical-rl;
+}
+
+/* ---------- fabric-study blobs ----------
+   Stand-ins for product photography (none exists for this project). Each
+   moment gets a unique two-layer grayscale "cloth study" — organic
+   border-radius shapes, not literal garment drawings. Swap the .figure
+   markup for an <img> when real photography exists; layout is unaffected. */
+.figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.figure .cloth {
+  position: absolute;
+  inset: 6%;
+  background: linear-gradient(155deg, var(--paper-2) 0%, #cfccc3 45%, var(--ink-soft) 100%);
+}
+.figure .cloth.b {
+  inset: 18% 0 0 18%;
+  background: linear-gradient(200deg, #ffffff 0%, #dedad0 55%, var(--mute) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+.figure .grain {
+  position: absolute;
+  inset: 6%;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- statement ---------- */
+.statement {
+  padding: min(22vh, 220px) var(--gutter);
+  text-align: center;
+}
+.statement p {
+  max-width: 18ch;
+  margin: 0 auto;
+  font-size: clamp(1.9rem, 4.2vw, 3.4rem);
+  font-weight: 300;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+}
+
+/* ---------- garment moments ---------- */
+.moment {
+  padding: clamp(60px, 12vh, 140px) var(--gutter);
+}
+.moment-inner {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(24px, 5vw, 80px);
+  align-items: center;
+}
+.moment.reverse .moment-inner { grid-template-columns: 0.85fr 1.15fr; }
+.moment.reverse .moment-media { order: 2; }
+.moment.reverse .moment-caption { order: 1; }
+@media (max-width: 860px) {
+  .moment-inner, .moment.reverse .moment-inner { grid-template-columns: 1fr; }
+  .moment.reverse .moment-media, .moment.reverse .moment-caption { order: 0; }
+}
+
+.moment-media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  will-change: transform;
+}
+.moment.wide { position: relative; }
+.moment.wide .moment-inner { grid-template-columns: 1fr; }
+.moment.wide .moment-media { aspect-ratio: 16 / 8; position: relative; }
+.moment.wide .moment-caption {
+  position: absolute;
+  left: clamp(20px, 4vw, 56px);
+  bottom: clamp(20px, 4vw, 48px);
+  color: #fff;
+  z-index: 2;
+}
+.moment.wide .moment-caption .label,
+.moment.wide .moment-caption .mute { color: rgba(255, 255, 255, 0.72); }
+
+.moment-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.moment-index { font-size: 11px; letter-spacing: 0.14em; color: var(--mute); }
+.moment-name {
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+.moment-meta {
+  font-size: 13px;
+  color: var(--mute-2);
+  letter-spacing: 0.02em;
+}
+.moment-price {
+  font-size: 14px;
+  letter-spacing: 0.04em;
+}
+.moment-link {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  position: relative;
+}
+.moment-link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -4px;
+  width: 100%;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0.3);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.moment-link:hover::after { transform: scaleX(1); }
+
+/* ---------- horizontal gallery ---------- */
+.gallery {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.gallery-head {
+  padding: 90px var(--gutter) 0;
+}
+.gallery-track {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(24px, 4vw, 64px);
+  padding: 70px var(--gutter) 110px;
+  width: max-content;
+}
+.gallery-item { width: min(64vw, 460px); flex-shrink: 0; }
+.gallery-item .moment-media { aspect-ratio: 3 / 4; }
+.gallery-item .moment-caption { margin-top: 18px; gap: 8px; }
+.gallery-item .moment-name { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+
+/* Mobile gets a native swipeable strip instead of the pinned,
+   scroll-driven rail — see horizontalGallery.js. */
+@media (max-width: 640px) {
+  .gallery-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 60px;
+  }
+  .gallery-item { width: 78vw; scroll-snap-align: start; }
+}
+
+/* ---------- footer ---------- */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 64px var(--gutter) 36px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 40px;
+  padding-bottom: 48px;
+}
+@media (max-width: 780px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+.footer-word { font-size: 15px; font-weight: 600; letter-spacing: 0.14em; }
+.footer-brand p { margin-top: 16px; color: var(--mute-2); max-width: 30ch; font-size: 13.5px; line-height: 1.7; }
+.footer-col h4 {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mute); margin-bottom: 16px;
+}
+.footer-col address, .footer-col ul {
+  font-style: normal; font-size: 13px; line-height: 1.9; color: var(--ink-soft);
+  list-style: none; margin: 0; padding: 0;
+}
+.footer-col ul a { text-decoration: none; }
+.footer-col ul a:hover { color: var(--mute-2); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 24px; border-top: 1px solid var(--line);
+  font-size: 11px; letter-spacing: 0.06em; color: var(--mute);
+  flex-wrap: wrap; gap: 12px;
+}
