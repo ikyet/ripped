@@ -31,6 +31,10 @@ const app = gsap.context(() => {
 });
 
 requestAnimationFrame(() => ScrollTrigger.refresh());
+// Belt-and-suspenders: re-measure once everything (images included) has
+// actually finished loading, in case any of that shifted a trigger's
+// position before this first refresh had settled.
+window.addEventListener("load", () => ScrollTrigger.refresh());
 
 if (import.meta.hot) {
   import.meta.hot.dispose(() => {

@@ -40,6 +40,12 @@ export function initSmoothScroll() {
   });
   gsap.ticker.lagSmoothing(0);
 
+  // Keep Lenis's own scroll-limit calculations in sync whenever
+  // ScrollTrigger recalculates (e.g. once a lazy-loaded image settles its
+  // final size) — a stale Lenis limit vs. a fresh ScrollTrigger one is
+  // another way pinned sections can end up jumping.
+  ScrollTrigger.addEventListener("refresh", () => lenis?.resize());
+
   return lenis;
 }
 

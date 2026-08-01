@@ -34,7 +34,7 @@ function initStandardMoments(withParallax) {
         {
           scale: 1.12,
           ease: "none",
-          scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: 0.8 },
+          scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: true },
         }
       );
 
@@ -42,12 +42,12 @@ function initStandardMoments(withParallax) {
       gsap.fromTo(
         media,
         { yPercent: -4 },
-        { yPercent: 4, ease: "none", scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: 0.8 } }
+        { yPercent: 4, ease: "none", scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: true } }
       );
       gsap.fromTo(
         moment.querySelector(".moment-caption"),
         { yPercent: 3 },
-        { yPercent: -3, ease: "none", scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: 0.8 } }
+        { yPercent: -3, ease: "none", scrollTrigger: { trigger: moment, start: "top bottom", end: "bottom top", scrub: true } }
       );
     }
   });
@@ -73,7 +73,10 @@ function initWideMomentPinned() {
       trigger: moment,
       start: "top top",
       end: "+=120%",
-      scrub: 0.8,
+      // true — see hero.js for why a numeric scrub here (stacked on top of
+      // Lenis's own smoothing) was causing the hard snap into the next
+      // section right as this pin released.
+      scrub: true,
       pin: true,
       anticipatePin: 1,
     },

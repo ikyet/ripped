@@ -32,7 +32,7 @@ export function initHorizontalGallery() {
         trigger: gallery,
         start: "top top",
         end: () => `+=${distance}`,
-        scrub: 0.6,
+        scrub: true,
         pin: true,
         anticipatePin: 1,
         animation: tween,

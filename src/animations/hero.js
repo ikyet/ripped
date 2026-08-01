@@ -58,7 +58,10 @@ export function initHero() {
       trigger: hero,
       start: "top top",
       end: "+=65%",
-      scrub: 0.6,
+      // true, not a numeric lag — Lenis is already smoothing the scroll
+      // position this scrub reads from; stacking a second lag on top of
+      // Lenis's is what caused the catch-up jump when the pin released.
+      scrub: true,
       pin: true,
       anticipatePin: 1,
       animation: tl,
