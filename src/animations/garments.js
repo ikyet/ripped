@@ -6,7 +6,9 @@ function initStandardMoments(withParallax) {
 
   moments.forEach((moment, i) => {
     const media = moment.querySelector(".moment-media");
-    const cloth = moment.querySelector(".cloth");
+    // Either the abstract placeholder's .cloth div, or a real photo's img —
+    // whichever this moment actually has gets the slow scroll-zoom.
+    const cloth = moment.querySelector(".cloth, .figure.photo img");
     const captionItems = moment.querySelectorAll(
       ".moment-caption > *:not(.moment-name)"
     );
@@ -61,7 +63,7 @@ function initStandardMoments(withParallax) {
 function initWideMomentPinned() {
   const moment = document.querySelector(".moment.wide");
   if (!moment) return;
-  const cloth = moment.querySelector(".cloth");
+  const cloth = moment.querySelector(".cloth, .figure.photo img");
   const meta = moment.querySelector(".moment-meta");
 
   gsap.set(meta, { autoAlpha: 0, y: 10 });
