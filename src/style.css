@@ -235,10 +235,11 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
 
 /* Real garment photography — flat product shots on white, so they float
    fully visible inside the frame rather than bleeding/cropping edge to
-   edge like the placeholder studies above. Background is a fixed white,
-   not the theme token, because that's what the source photos already are. */
+   edge like the placeholder studies above. Background matches the page
+   token (not a fixed white) so the frame reads as part of the page rather
+   than a separate white card sitting on it. */
 .figure.photo {
-  background: #ffffff;
+  background: var(--paper);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,11 +295,11 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
   position: absolute;
   left: clamp(20px, 4vw, 56px);
   bottom: clamp(20px, 4vw, 48px);
-  color: #fff;
   z-index: 2;
+  /* Text colors inherit the normal --ink/--mute tokens below — the old
+     white override assumed a full-bleed dark backdrop, which the real
+     product photo (light, on the page's own background) no longer is. */
 }
-.moment.wide .moment-caption .label,
-.moment.wide .moment-caption .mute { color: rgba(255, 255, 255, 0.72); }
 
 .moment-caption {
   display: flex;
