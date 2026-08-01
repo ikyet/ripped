@@ -3,17 +3,28 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap.js";
 
 let lenis = null;
 
+// Two independent signals, either one enough to opt out of Lenis: a coarse
+// pointer (the reliable "this is a touchscreen" check on real devices) or a
+// narrow viewport (a phone-width fallback in case pointer/hover media
+// features aren't reported the way a given browser context expects).
+const isTouchDevice = () =>
+  window.matchMedia("(hover: none) and (pointer: coarse)").matches ||
+  window.matchMedia("(max-width: 640px)").matches;
+
 /**
  * Creates the Lenis smooth-scroll instance and wires it into GSAP's ticker
  * so ScrollTrigger reads Lenis's virtual scroll position instead of the
  * raw (stepped) native scroll — this is what keeps scrubbed animations
  * perfectly in sync with the smoothed scroll feel.
  *
- * Skipped entirely under prefers-reduced-motion: native scroll stays in
- * control and ScrollTrigger falls back to listening to it directly.
+ * Skipped under prefers-reduced-motion (native scroll stays in control and
+ * ScrollTrigger listens to it directly) and on touch devices — phones are
+ * where a smooth-scroll library fighting the browser's own touch handling
+ * is most likely to make scrolling feel unresponsive, so native wins there
+ * every time rather than risking that for a polish effect.
  */
 export function initSmoothScroll() {
-  if (prefersReducedMotion()) return null;
+  if (prefersReducedMotion() || isTouchDevice()) return null;
 
   lenis = new Lenis({
     duration: 1.1,

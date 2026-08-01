@@ -235,11 +235,12 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
 
 /* Real garment photography — flat product shots on white, so they float
    fully visible inside the frame rather than bleeding/cropping edge to
-   edge like the placeholder studies above. Background matches the page
-   token (not a fixed white) so the frame reads as part of the page rather
-   than a separate white card sitting on it. */
+   edge like the placeholder studies above. Pure white, matching both the
+   source photos' own background and the .moment/.gallery band around it —
+   any token-based off-white would show a seam against the photographed
+   white. */
 .figure.photo {
-  background: var(--paper);
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -268,6 +269,11 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
 /* ---------- garment moments ---------- */
 .moment {
   padding: clamp(60px, 12vh, 140px) var(--gutter);
+  /* Pure white, not the page's --paper token: every moment now carries a
+     real product photo, and a hard white band reads as intentional against
+     the off-white hero/statement/footer instead of leaving a seam where a
+     photographed white background meets a warmer page tone. */
+  background: #ffffff;
 }
 .moment-inner {
   display: grid;
@@ -352,7 +358,7 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
 .gallery {
   position: relative;
   overflow: hidden;
-  background: var(--paper-2);
+  background: #ffffff;
 }
 .gallery-head {
   padding: 90px var(--gutter) 0;

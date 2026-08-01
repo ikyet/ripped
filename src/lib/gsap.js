@@ -5,6 +5,12 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(ScrollTrigger, Flip, SplitText);
 
+// Mobile browsers fire resize events when the address bar shows/hides
+// during scroll; without this, ScrollTrigger recalculates trigger
+// positions on every one of those and can make the page feel like it's
+// fighting the scroll.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 // Signature ease of the brand's motion language — a patient, gliding
 // ease-out. Used anywhere an element settles into place.
 export const EASE = "cubic-bezier(0.19, 1, 0.22, 1)";
