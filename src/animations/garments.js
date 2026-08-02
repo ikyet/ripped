@@ -1,10 +1,12 @@
-import { gsap, ScrollTrigger, BREAKPOINTS } from "../lib/gsap.js";
+import { gsap, BREAKPOINTS } from "../lib/gsap.js";
 
-/** Standalone editorial moments (not the wide pinned one, not the gallery). */
+/** Every garment moment gets the same treatment — a directional fade/scale
+ * entrance, plus (desktop/tablet only) a slow ambient Ken-Burns zoom and a
+ * light parallax drift between image and caption while it's in view. */
 function initStandardMoments(withParallax) {
-  const moments = gsap.utils.toArray(".moment:not(.wide)");
+  const moments = gsap.utils.toArray(".moment");
 
-  moments.forEach((moment, i) => {
+  moments.forEach((moment) => {
     const media = moment.querySelector(".moment-media");
     // Either the abstract placeholder's .cloth div, or a real photo's img —
     // whichever this moment actually has gets the slow scroll-zoom.
@@ -53,59 +55,6 @@ function initStandardMoments(withParallax) {
   });
 }
 
-/** The one "fixed section while content changes" moment: pins, zooms the
- * fabric study dramatically, and swaps in a second caption line mid-pin —
- * reserved for a single centerpiece so the technique still reads as a
- * deliberate beat, not wallpaper. Desktop/tablet only: mobile browsers
- * resize their viewport as chrome shows/hides while scrolling, which makes
- * pinned sections jump — not worth it for one section, so mobile gets the
- * simpler non-pinned treatment below instead. */
-function initWideMomentPinned() {
-  const moment = document.querySelector(".moment.wide");
-  if (!moment) return;
-  const cloth = moment.querySelector(".cloth, .figure.photo img");
-  const meta = moment.querySelector(".moment-meta");
-
-  gsap.set(meta, { autoAlpha: 0, y: 10 });
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: moment,
-      start: "top top",
-      end: "+=120%",
-      // true — see hero.js for why a numeric scrub here (stacked on top of
-      // Lenis's own smoothing) was causing the hard snap into the next
-      // section right as this pin released.
-      scrub: true,
-      pin: true,
-      anticipatePin: 1,
-    },
-  });
-
-  tl.fromTo(cloth, { scale: 1 }, { scale: 1.35, ease: "none" }, 0).to(
-    meta,
-    { autoAlpha: 1, y: 0, duration: 0.2, ease: "none" },
-    0.55
-  );
-}
-
-function initWideMomentSimple() {
-  const moment = document.querySelector(".moment.wide");
-  if (!moment) return;
-  const media = moment.querySelector(".moment-media");
-  const meta = moment.querySelector(".moment-meta");
-
-  // No scale here (unlike the desktop pin) — a growing-to-full-size image
-  // read as its own kind of jumpy on a small screen. Just a plain fade.
-  gsap.set(media, { autoAlpha: 0 });
-  gsap.set(meta, { autoAlpha: 0, y: 12 });
-
-  gsap
-    .timeline({ scrollTrigger: { trigger: moment, start: "top 78%", once: true }, defaults: { ease: "power4.out" } })
-    .to(media, { autoAlpha: 1, duration: 0.9 })
-    .to(meta, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3);
-}
-
 export function initGarments() {
   const mm = gsap.matchMedia();
 
@@ -116,10 +65,5 @@ export function initGarments() {
   mm.add({ motionOK: BREAKPOINTS.motionOK, notMobile: `not ${BREAKPOINTS.mobile}` }, (context) => {
     if (!context.conditions.motionOK) return;
     initStandardMoments(context.conditions.notMobile);
-    if (context.conditions.notMobile) {
-      initWideMomentPinned();
-    } else {
-      initWideMomentSimple();
-    }
   });
 }
