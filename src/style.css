@@ -392,11 +392,20 @@ h2[data-open-product]:hover, h3[data-open-product]:hover { color: var(--mute-2);
 .gallery-item .moment-caption { margin-top: 18px; gap: 8px; }
 .gallery-item .moment-name { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
 
-/* Same pinned, scroll-driven rail as desktop (see horizontalGallery.js) —
-   just one bigger item in view at a time, since there's no room for the
-   "next item peeking in at the edge" composition on a narrow screen. */
+/* Mobile drops the horizontal rail entirely (see horizontalGallery.js) —
+   a plain two-column grid that flows with the page instead, each item at
+   a fixed, consistent size regardless of its photo's own aspect ratio. */
 @media (max-width: 640px) {
-  .gallery-item { width: 82vw; }
+  .gallery-track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    gap: 28px 16px;
+    width: 100%;
+    padding: 48px var(--gutter) 64px;
+  }
+  .gallery-item { width: auto; }
+  .gallery-item .moment-name { font-size: 1rem; }
 }
 
 /* ---------- footer ---------- */
