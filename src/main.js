@@ -7,6 +7,7 @@ import { initHero } from "./animations/hero.js";
 import { initReveals } from "./animations/reveals.js";
 import { initGarments } from "./animations/garments.js";
 import { initHorizontalGallery } from "./animations/horizontalGallery.js";
+import { initShop } from "./animations/shop.js";
 
 // The hero's entrance and its scroll-driven morph into the nav both assume
 // they start from the top. `scrollRestoration` is already set to "manual"
@@ -28,6 +29,7 @@ const app = gsap.context(() => {
   initReveals();
   initGarments();
   initHorizontalGallery();
+  initShop();
 });
 
 requestAnimationFrame(() => ScrollTrigger.refresh());

@@ -17,13 +17,13 @@
       <div class="nav-right">
         <a href="#drop" class="nav-link">Shop</a>
         <a href="#index" class="nav-link">Menu</a>
-        <a href="#" class="nav-link nav-bag">
+        <button type="button" class="nav-link nav-bag" id="cart-open" aria-haspopup="dialog">
           <svg viewBox="0 0 15 17" fill="none" stroke="currentColor" stroke-width="1.1">
             <path d="M2 5.5h11l-.7 10.5H2.7L2 5.5Z" />
             <path d="M4.8 5.5V4a2.7 2.7 0 0 1 5.4 0v1.5" />
           </svg>
-          Bag (0)
-        </a>
+          Bag (<span id="cart-count">0</span>)
+        </button>
       </div>
     </nav>
 
@@ -50,58 +50,58 @@
     </section>
 
     <main id="drop">
-      <section class="moment" id="m1">
+      <section class="moment" id="m1" data-product="bomber">
         <div class="wrap moment-inner">
-          <div class="moment-media">
+          <div class="moment-media" data-open-product>
             <div class="figure photo"><img src="/images/bomber.jpg" alt="Slashed Bomber jacket" loading="lazy" /></div>
           </div>
           <div class="moment-caption">
             <span class="moment-index">01 / 06</span>
-            <h2 class="moment-name" data-split="lines">Slashed Bomber</h2>
+            <h2 class="moment-name" data-split="lines" data-open-product>Slashed Bomber</h2>
             <p class="moment-meta">Waxed cotton — hand-cut vents at the seam</p>
             <p class="moment-price">$780</p>
-            <a href="#" class="moment-link">View piece</a>
+            <button type="button" class="moment-link" data-open-product>View piece</button>
           </div>
         </div>
       </section>
 
-      <section class="moment reverse" id="m2">
+      <section class="moment reverse" id="m2" data-product="hoodie">
         <div class="wrap moment-inner">
-          <div class="moment-media">
+          <div class="moment-media" data-open-product>
             <div class="figure photo"><img src="/images/hoodie.jpg" alt="Raw-Edge Hoodie" loading="lazy" /></div>
           </div>
           <div class="moment-caption">
             <span class="moment-index">02 / 06</span>
-            <h2 class="moment-name" data-split="lines">Raw-Edge Hoodie</h2>
+            <h2 class="moment-name" data-split="lines" data-open-product>Raw-Edge Hoodie</h2>
             <p class="moment-meta">Double-layer fleece — unfinished hem</p>
             <p class="moment-price">$340</p>
-            <a href="#" class="moment-link">View piece</a>
+            <button type="button" class="moment-link" data-open-product>View piece</button>
           </div>
         </div>
       </section>
 
-      <section class="moment wide" id="m3">
-        <div class="moment-media">
+      <section class="moment wide" id="m3" data-product="denim">
+        <div class="moment-media" data-open-product>
           <div class="figure photo"><img src="/images/denim.jpg" alt="WRAPP Denim jeans" loading="lazy" /></div>
         </div>
         <div class="moment-caption">
           <span class="moment-index">03 / 06</span>
-          <h2 class="moment-name">WRAPP Denim</h2>
+          <h2 class="moment-name" data-open-product>WRAPP Denim</h2>
           <p class="moment-meta">Rigid selvedge — structural fray at the knee — $420</p>
         </div>
       </section>
 
-      <section class="moment" id="m4">
+      <section class="moment" id="m4" data-product="trench">
         <div class="wrap moment-inner">
-          <div class="moment-media">
+          <div class="moment-media" data-open-product>
             <div class="figure photo"><img src="/images/trench.png" alt="Frayed Trench top" loading="lazy" /></div>
           </div>
           <div class="moment-caption">
             <span class="moment-index">04 / 06</span>
-            <h2 class="moment-name" data-split="lines">Frayed Trench</h2>
+            <h2 class="moment-name" data-split="lines" data-open-product>Frayed Trench</h2>
             <p class="moment-meta">Brushed cotton — unraveled cuffs</p>
             <p class="moment-price">$1,240</p>
-            <a href="#" class="moment-link">View piece</a>
+            <button type="button" class="moment-link" data-open-product>View piece</button>
           </div>
         </div>
       </section>
@@ -113,29 +113,29 @@
         <h2 class="moment-name" style="margin-top:14px;max-width:14ch" data-split="lines">Every piece, side by side.</h2>
       </div>
       <div class="gallery-track" id="gallery-track">
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/bomber.jpg" alt="Slashed Bomber jacket" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">01</span><h3 class="moment-name">Slashed Bomber</h3><p class="moment-price">$780</p></div>
+        <article class="gallery-item" data-product="bomber">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/bomber.jpg" alt="Slashed Bomber jacket" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">01</span><h3 class="moment-name" data-open-product>Slashed Bomber</h3><p class="moment-price">$780</p></div>
         </article>
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/hoodie.jpg" alt="Raw-Edge Hoodie" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">02</span><h3 class="moment-name">Raw-Edge Hoodie</h3><p class="moment-price">$340</p></div>
+        <article class="gallery-item" data-product="hoodie">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/hoodie.jpg" alt="Raw-Edge Hoodie" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">02</span><h3 class="moment-name" data-open-product>Raw-Edge Hoodie</h3><p class="moment-price">$340</p></div>
         </article>
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/denim.jpg" alt="WRAPP Denim jeans" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">03</span><h3 class="moment-name">WRAPP Denim</h3><p class="moment-price">$420</p></div>
+        <article class="gallery-item" data-product="denim">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/denim.jpg" alt="WRAPP Denim jeans" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">03</span><h3 class="moment-name" data-open-product>WRAPP Denim</h3><p class="moment-price">$420</p></div>
         </article>
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/trench.png" alt="Frayed Trench top" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">04</span><h3 class="moment-name">Frayed Trench</h3><p class="moment-price">$1,240</p></div>
+        <article class="gallery-item" data-product="trench">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/trench.png" alt="Frayed Trench top" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">04</span><h3 class="moment-name" data-open-product>Frayed Trench</h3><p class="moment-price">$1,240</p></div>
         </article>
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/cargo.jpg" alt="Distressed Cargo jeans" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">05</span><h3 class="moment-name">Distressed Cargo</h3><p class="moment-price">$460</p></div>
+        <article class="gallery-item" data-product="cargo">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/cargo.jpg" alt="Distressed Cargo jeans" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">05</span><h3 class="moment-name" data-open-product>Distressed Cargo</h3><p class="moment-price">$460</p></div>
         </article>
-        <article class="gallery-item">
-          <div class="moment-media"><div class="figure photo"><img src="/images/tee.jpg" alt="Torn Layer Tee" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">06</span><h3 class="moment-name">Torn Layer Tee</h3><p class="moment-price">$180</p></div>
+        <article class="gallery-item" data-product="tee">
+          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/tee.jpg" alt="Torn Layer Tee" loading="lazy" /></div></div>
+          <div class="moment-caption"><span class="moment-index">06</span><h3 class="moment-name" data-open-product>Torn Layer Tee</h3><p class="moment-price">$180</p></div>
         </article>
       </div>
     </section>
@@ -171,6 +171,76 @@
         </div>
       </div>
     </footer>
+
+    <div class="overlay-scrim" id="overlay-scrim" hidden></div>
+
+    <div class="product-modal" id="product-modal" role="dialog" aria-modal="true" aria-label="Product details" hidden>
+      <button type="button" class="overlay-close" data-close-product aria-label="Close">Close</button>
+      <div class="product-modal-inner">
+        <div class="product-modal-media">
+          <img id="pm-image" src="" alt="" />
+        </div>
+        <div class="product-modal-info">
+          <span class="moment-index" id="pm-index"></span>
+          <h2 class="moment-name" id="pm-name"></h2>
+          <p class="pm-price" id="pm-price"></p>
+          <p class="pm-description" id="pm-description"></p>
+
+          <div class="pm-block">
+            <span class="label">Size</span>
+            <div class="pm-sizes" id="pm-sizes"></div>
+          </div>
+
+          <div class="pm-block">
+            <span class="label">Measurements (cm)</span>
+            <table class="pm-measurements" id="pm-measurements"></table>
+          </div>
+
+          <button type="button" class="btn btn-fill pm-add" id="pm-add">Add to Bag — <span id="pm-add-price"></span></button>
+          <p class="pm-added" id="pm-added" hidden>Added to bag.</p>
+        </div>
+      </div>
+    </div>
+
+    <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping bag" hidden>
+      <div class="cart-head">
+        <h2>Your Bag</h2>
+        <button type="button" class="overlay-close" data-close-cart aria-label="Close">Close</button>
+      </div>
+      <ul class="cart-items" id="cart-items"></ul>
+      <p class="cart-empty" id="cart-empty">Your bag is empty.</p>
+      <div class="cart-foot">
+        <div class="cart-subtotal">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">$0</span>
+        </div>
+        <button type="button" class="btn btn-fill cart-checkout" id="cart-checkout" disabled>Checkout</button>
+      </div>
+    </aside>
+
+    <div class="checkout-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-label="Checkout" hidden>
+      <button type="button" class="overlay-close" data-close-checkout aria-label="Close">Close</button>
+      <form class="checkout-form" id="checkout-form">
+        <span class="label">Shipping Details</span>
+        <h2>Where should this drop?</h2>
+        <div class="checkout-grid">
+          <label>Full name<input type="text" name="fullName" autocomplete="name" required /></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required /></label>
+          <label>Country<input type="text" name="country" autocomplete="country-name" required /></label>
+          <label>City<input type="text" name="city" autocomplete="address-level2" required /></label>
+          <label class="checkout-grid-full">Address<input type="text" name="address" autocomplete="street-address" required /></label>
+          <label>Postal code<input type="text" name="postal" autocomplete="postal-code" required /></label>
+        </div>
+        <p class="checkout-note">Demo project — no real order is placed and no payment is collected.</p>
+        <button type="submit" class="btn btn-fill">Place Order</button>
+      </form>
+      <div class="checkout-confirm" id="checkout-confirm" hidden>
+        <span class="label">Order Received</span>
+        <h2>Thank you.</h2>
+        <p id="checkout-confirm-text"></p>
+        <button type="button" class="btn btn-ghost" data-close-checkout>Close</button>
+      </div>
+    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>
