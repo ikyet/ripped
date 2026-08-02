@@ -375,16 +375,11 @@ h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
 .gallery-item .moment-caption { margin-top: 18px; gap: 8px; }
 .gallery-item .moment-name { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
 
-/* Mobile gets a native swipeable strip instead of the pinned,
-   scroll-driven rail — see horizontalGallery.js. */
+/* Same pinned, scroll-driven rail as desktop (see horizontalGallery.js) —
+   just one bigger item in view at a time, since there's no room for the
+   "next item peeking in at the edge" composition on a narrow screen. */
 @media (max-width: 640px) {
-  .gallery-track {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 60px;
-  }
-  .gallery-item { width: 78vw; scroll-snap-align: start; }
+  .gallery-item { width: 82vw; }
 }
 
 /* ---------- footer ---------- */
