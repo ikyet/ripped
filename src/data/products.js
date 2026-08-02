@@ -2,6 +2,14 @@
 // gallery strip, the product modal, and the cart all read from this list
 // instead of duplicating names/prices/copy in markup and JS separately.
 
+// The static <img src="/images/..."> tags in index.html get rewritten with
+// the site's base path (/ripped/, see vite.config.js) by Vite's HTML
+// processing at build time. These paths are plain JS strings instead, so
+// Vite never touches them — without this prefix every image the product
+// modal sets at runtime 404s, since the site isn't served from the domain
+// root.
+const BASE = import.meta.env.BASE_URL;
+
 export const SIZES = ["S", "M", "L", "XL"];
 
 export const PRODUCTS = [
@@ -14,7 +22,7 @@ export const PRODUCTS = [
     detail: "Hand-cut vents at the seam",
     description:
       "An oversized bomber cut from waxed cotton, with structural vents sliced by hand at the seam line rather than printed or laser-cut — each one falls slightly differently.",
-    image: "/images/bomber.jpg",
+    image: BASE + "images/bomber.jpg",
     fit: "top",
     measurements: {
       unit: "cm",
@@ -34,7 +42,7 @@ export const PRODUCTS = [
     detail: "Unfinished hem",
     description:
       "Double-layer fleece hoodie left unhemmed at the cuffs and body — the raw edge is the finish, not a defect. Runs oversized by design.",
-    image: "/images/hoodie.jpg",
+    image: BASE + "images/hoodie.jpg",
     fit: "top",
     measurements: {
       unit: "cm",
@@ -54,7 +62,7 @@ export const PRODUCTS = [
     detail: "Structural fray at the knee",
     description:
       "Rigid selvedge denim in a wide, uncuffed leg, with a controlled structural fray worked into the knee during construction — it opens further with wear.",
-    image: "/images/denim.jpg",
+    image: BASE + "images/denim.jpg",
     fit: "bottom",
     measurements: {
       unit: "cm",
@@ -74,7 +82,7 @@ export const PRODUCTS = [
     detail: "Unraveled cuffs",
     description:
       "A long-sleeve layering piece in brushed cotton, part of the outerwear line — the cuffs are unraveled by hand so the hem thread hangs loose rather than being locked off.",
-    image: "/images/trench.png",
+    image: BASE + "images/trench.png",
     fit: "top",
     measurements: {
       unit: "cm",
@@ -94,7 +102,7 @@ export const PRODUCTS = [
     detail: "Abraded panels",
     description:
       "Six-pocket utility trouser in heavyweight twill, hand-abraded at the panels that take the most wear first — the distressing follows where the fabric would actually break down.",
-    image: "/images/cargo.jpg",
+    image: BASE + "images/cargo.jpg",
     fit: "bottom",
     measurements: {
       unit: "cm",
@@ -114,7 +122,7 @@ export const PRODUCTS = [
     detail: "Exposed underlayer",
     description:
       "Double-layer jersey tee with slashes placed to expose the underlayer beneath — worn as a single piece or under the bomber for the full layered silhouette.",
-    image: "/images/tee.jpg",
+    image: BASE + "images/tee.jpg",
     fit: "top",
     measurements: {
       unit: "cm",

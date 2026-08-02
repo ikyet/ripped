@@ -95,12 +95,14 @@ function initWideMomentSimple() {
   const media = moment.querySelector(".moment-media");
   const meta = moment.querySelector(".moment-meta");
 
-  gsap.set(media, { autoAlpha: 0, scale: 1.08 });
+  // No scale here (unlike the desktop pin) — a growing-to-full-size image
+  // read as its own kind of jumpy on a small screen. Just a plain fade.
+  gsap.set(media, { autoAlpha: 0 });
   gsap.set(meta, { autoAlpha: 0, y: 12 });
 
   gsap
     .timeline({ scrollTrigger: { trigger: moment, start: "top 78%", once: true }, defaults: { ease: "power4.out" } })
-    .to(media, { autoAlpha: 1, scale: 1, duration: 1.1 })
+    .to(media, { autoAlpha: 1, duration: 0.9 })
     .to(meta, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.3);
 }
 
