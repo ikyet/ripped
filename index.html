@@ -1,251 +1,191 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WRAPP — Drop 01</title>
-    <script>
-      // Must run synchronously, before the browser applies its own scroll
-      // restoration — by the time main.js (a deferred module) executes,
-      // a mid-scroll reload may have already jumped past the hero.
-      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    </script>
-  </head>
-  <body>
-    <nav class="nav" id="nav">
-      <a href="#top" class="nav-logo" id="nav-logo">WRAPP</a>
-      <div class="nav-right">
-        <a href="#drop" class="nav-link">Shop</a>
-        <a href="#index" class="nav-link">Menu</a>
-        <button type="button" class="nav-link nav-bag" id="cart-open" aria-haspopup="dialog">
-          <svg viewBox="0 0 15 17" fill="none" stroke="currentColor" stroke-width="1.1">
-            <path d="M2 5.5h11l-.7 10.5H2.7L2 5.5Z" />
-            <path d="M4.8 5.5V4a2.7 2.7 0 0 1 5.4 0v1.5" />
-          </svg>
-          Bag (<span id="cart-count">0</span>)
-        </button>
-      </div>
-    </nav>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mis hábitos">
+<meta name="theme-color" content="#fff6f6">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>Mis hábitos</title>
+<style>
+:root{--bg:#fff6f6;--card:#fff;--text:#1d1d1f;--muted:#8e8e93;--pink:#ef6f86;--pink2:#fbd5dc;--line:#f1e4e6}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.35 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:env(safe-area-inset-top) 0 calc(78px + env(safe-area-inset-bottom))}
+.wrap{max-width:520px;margin:0 auto;padding:0 16px}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 6px}
+header h1{font-size:19px;margin:0;font-weight:700;text-align:center;flex:1}
+.pill{font:inherit;font-size:13px;font-weight:600;color:#fff;background:var(--pink);border:0;border-radius:999px;padding:5px 11px}
+.ghost{font:inherit;font-size:22px;background:none;border:0;color:var(--text);padding:4px 8px;width:44px}
+.strip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:10px 0 6px}
+.dayb{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;font:inherit;color:var(--muted);padding:4px 0}
+.dayb small{font-size:12px;font-weight:600}
+.ring{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--pink) calc(var(--p)*1%),var(--pink2) 0)}
+.ring span{width:31px;height:31px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px;font-weight:600;color:var(--text)}
+.dayb.sel .ring span{background:var(--pink);color:#fff}
+.dayb.today small{color:var(--pink)}
+.summary{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:18px;padding:14px 16px;margin:8px 0 14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.summary b{font-size:26px}.summary .bar{flex:1;height:10px;background:var(--pink2);border-radius:999px;overflow:hidden}
+.summary .bar i{display:block;height:100%;background:var(--pink);border-radius:999px;transition:width .3s}
+.summary small{color:var(--muted);font-size:13px;display:block}
+.list{display:grid;gap:10px}
+.h{position:relative;display:flex;align-items:center;gap:12px;min-height:62px;padding:12px 14px;border-radius:16px;background:var(--c1);overflow:hidden;border:0;font:inherit;color:var(--text);text-align:left;width:100%;cursor:pointer;transition:transform .1s}
+.h:active{transform:scale(.98)}
+.h::before{content:"";position:absolute;inset:0;width:0;background:var(--c2);transition:width .35s ease}
+.h.done::before{width:100%}
+.h>*{position:relative}
+.h .em{font-size:22px;width:30px;text-align:center;flex:none}
+.h .tx{flex:1;min-width:0}.h .tx b{display:block;font-size:15.5px;font-weight:600}.h .tx small{color:#6e6e73;font-size:13px}
+.h .ck{width:28px;height:28px;border-radius:50%;border:2px solid rgba(0,0,0,.18);display:grid;place-items:center;flex:none;font-size:15px;color:#fff;font-weight:700}
+.h.done .ck{background:rgba(0,0,0,.55);border-color:transparent}
+.h .st{position:absolute;top:6px;right:12px;font-size:11px;color:#6e6e73;font-weight:600}
+.h.now{box-shadow:0 0 0 2.5px var(--pink)}
+.now-tag{font-size:11px;font-weight:700;color:#fff;background:var(--pink);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.h.done .tx b{text-decoration:line-through;text-decoration-color:rgba(0,0,0,.35)}
+.sec{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:18px 4px 2px}
+/* Semana */
+.card{background:var(--card);border-radius:22px;padding:16px 12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.wtitle{font-family:"Snell Roundhand","Brush Script MT",cursive;color:var(--pink);font-size:34px;text-align:center;margin:2px 0 4px}
+.wnav{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-weight:600;font-size:14px;margin-bottom:12px}
+.wnav button{font:inherit;background:var(--pink);color:#fff;border:0;width:24px;height:24px;border-radius:50%;font-size:14px;line-height:1}
+.grid{display:grid;grid-template-columns:118px repeat(7,minmax(0,1fr));gap:6px 4px;align-items:center}
+.grid .hd{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
+.grid .hd.t{color:var(--pink)}
+.grid .rn{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sq{aspect-ratio:1;border-radius:6px;background:var(--c1);margin:0 auto;width:100%;max-width:26px}
+.sq.done{background:var(--c3)}.sq.part{background:linear-gradient(135deg,var(--c3) 50%,var(--c1) 50%)}.sq.na{background:transparent;border:1.5px dashed #eadcde}
+.stars{display:contents}.star{text-align:center;font-size:18px;opacity:.25}.star.on{opacity:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:16px;text-align:center}
+.stats b{display:block;font-size:24px;font-weight:700}.stats small{color:var(--muted);font-size:11.5px}
+.tip{color:var(--muted);font-size:13px;text-align:center;margin:16px 8px}
+nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.88);-webkit-backdrop-filter:saturate(180%) blur(18px);backdrop-filter:saturate(180%) blur(18px);border-top:.5px solid var(--line);display:flex;justify-content:center;gap:40px;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{font:inherit;background:none;border:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;padding:2px 16px}
+nav button span{font-size:22px}nav button.on{color:var(--pink)}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <section id="vHoy">
+  <header><button class="pill" id="goToday">Hoy</button><h1 id="dayTitle">Hoy</h1><span style="width:44px"></span></header>
+  <div class="strip" id="strip"></div>
+  <div class="summary"><div><b id="pct">0%</b><small id="cnt">0 de 0</small></div><div class="bar"><i id="bar"></i></div></div>
+  <div id="list"></div>
+  <p class="tip">Toca una actividad para marcarla como hecha.</p>
+ </section>
+ <section id="vSem" class="hide">
+  <header><span style="width:44px"></span><h1>Reporte</h1><span style="width:44px"></span></header>
+  <div class="card">
+   <div class="wtitle">Mi semana</div>
+   <div class="wnav"><button id="wPrev" aria-label="Semana anterior">‹</button><span id="wRange"></span><button id="wNext" aria-label="Semana siguiente">›</button></div>
+   <div class="grid" id="grid"></div>
+   <div class="stats" id="stats"></div>
+  </div>
+  <p class="tip">Toca un día de la cabecera para ver sus actividades.</p>
+ </section>
+</div>
+<nav><button id="tHoy" class="on"><span>☀️</span>Hoy</button><button id="tSem"><span>📊</span>Semana</button></nav>
+<script>
+(function(){
+// ---------- Horario (0 = lunes ... 6 = domingo) ----------
+const ALL=[0,1,2,3,4,5,6];
+const C={azul:['#e3f2fd','#bfe0fb','#7db9ec'],rosa:['#fde8ec','#f9c7d1','#ef8fa3'],lila:['#ece9fb','#d3cdf6','#9d92e6'],amarillo:['#fdf6dc','#f8e7a4','#e8c74f'],verde:['#e5f5e0','#c4e8b8','#86c873'],durazno:['#fdeee3','#f9d5bb','#ef9f68'],menta:['#e0f6f3','#b9ebe3','#5fc9b8'],gris:['#f0eff2','#dddbe2','#a9a6b3']};
+const GYM={1:'Pecho + espalda + abdomen',2:'Hombro + brazo',3:'Pierna',4:'Pecho + espalda + abdomen',5:'Hombro + brazo',6:'Pierna'};
+const H=[
+ {id:'organizar',g:'Organizar',em:'🗓️',t:'Organizar semana',s:'00:00',e:'00:30',d:[0],c:'lila'},
+ {id:'trabajo1',g:'Trabajo',em:'💼',t:'Trabajo',s:'00:00',e:'05:30',d:[1,2,3,4,5,6],c:'gris'},
+ {id:'comida3',g:'Comida 3',em:'🥪',t:'Comida 3: sándwich de pollo + manzana',s:'02:00',e:'02:30',d:ALL,c:'durazno'},
+ {id:'meditar',g:'Meditar',em:'🧘',t:'Meditar',s:'05:40',e:'05:50',d:ALL,c:'lila'},
+ {id:'dormir',g:'Dormir',em:'😴',t:'Dormir',s:'06:00',e:'14:00',d:ALL,c:'azul'},
+ {id:'comida1',g:'Comida 1',em:'🍳',t:'Comida 1: huevos + tortillas + mandarina',s:'14:15',e:'14:45',d:ALL,c:'amarillo'},
+ {id:'caminata',g:'Caminata',em:'🚶',t:'Caminata 30 min',s:'14:45',e:'15:15',d:ALL,c:'verde'},
+ {id:'super',g:'Súper/YT',em:'🛒',t:'Ir al súper',s:'15:15',e:'16:15',d:[0],c:'menta'},
+ {id:'yt',g:'Súper/YT',em:'🎬',t:'Videos de YouTube',s:'15:15',e:'16:15',d:[1,2,3,4,5,6],c:'menta'},
+ {id:'pre',g:'Pre-entreno',em:'🍌',t:'Pre-entreno: pan con miel + plátano',s:'16:30',e:'16:45',d:ALL,c:'amarillo'},
+ {id:'correr',g:'Entreno',em:'🏃',t:'Correr 1 hora (ritmo suave)',s:'17:00',e:'18:00',d:[0],c:'rosa'},
+ {id:'gym',g:'Entreno',em:'🏋️',t:d=>'Gym: '+GYM[d],s:'17:00',e:'18:15',d:[1,2,3,4,5,6],c:'rosa'},
+ {id:'post',g:'Post-entreno',em:'🥣',t:'Post-entreno: yogur griego + frutos rojos + cereal + leche',s:'18:30',e:'19:00',d:ALL,c:'durazno'},
+ {id:'comida2',g:'Comida 2',em:'🥩',t:'Comida 2: bistec + papa al horno',s:'21:00',e:'21:30',d:ALL,c:'durazno'},
+ {id:'trabajo2',g:'Trabajo',em:'💼',t:'Trabajo',s:'22:30',e:'24:00',d:[0,1,2,3,4,5],c:'gris'},
+ {id:'revision',g:'Revisión',em:'📋',t:'Revisión física: peso y sensaciones',s:'22:30',e:'23:00',d:[6],c:'azul'},
+ {id:'amazon',g:'Revisión',em:'📦',t:'Revisar Amazon (FGLMX)',s:'23:00',e:'24:00',d:[6],c:'menta'}
+];
+const GROUPS=[...new Set(H.map(h=>h.g))];
+const GEM={};H.forEach(h=>{if(!GEM[h.g])GEM[h.g]={em:h.em,c:h.c}});GEM['Entreno'].em='🏋️';GEM['Súper/YT'].em='🎬';
 
-    <header class="hero" id="top">
-      <p class="hero-kicker" data-reveal="hero">Collection One — Deconstruction</p>
-      <h1 class="hero-wordmark" id="hero-wordmark" data-reveal="hero">WRAPP</h1>
+// ---------- Fechas ----------
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const dow=d=>(d.getDay()+6)%7;
+const monOf=d=>addD(new Date(d.getFullYear(),d.getMonth(),d.getDate()),-dow(d));
+const toMin=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+const t12=t=>{let[h,m]=t.split(':').map(Number);h%=24;const ap=h<12?'am':'pm',hh=h%12||12;return m?`${hh}:${pad(m)} ${ap}`:`${hh} ${ap}`};
+const DN=['L','M','M','J','V','S','D'],DL=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'],MN=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-      <div class="hero-figure" aria-hidden="true" data-reveal="hero">
-        <div class="figure">
-          <div class="cloth"></div>
-          <div class="cloth b"></div>
-          <div class="grain"></div>
-        </div>
-      </div>
+// ---------- Guardado en este teléfono ----------
+let DONE={};try{DONE=JSON.parse(localStorage.getItem('habitos-v1')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('habitos-v1',JSON.stringify(DONE))}catch(e){}};
+const itemsFor=ds=>{const d=dow(parse(ds));return H.filter(h=>h.d.includes(d)).sort((a,b)=>toMin(a.s)-toMin(b.s))};
+const isDone=(ds,id)=>(DONE[ds]||[]).includes(id);
+const pctOf=ds=>{const it=itemsFor(ds);return it.length?Math.round(it.filter(h=>isDone(ds,h.id)).length/it.length*100):0};
+const streak=(ds,id)=>{let n=0,d=parse(ds);if(!isDone(ds,id))d=addD(d,-1);for(let i=0;i<400;i++){const k=iso(d),sch=H.find(h=>h.id===id).d.includes(dow(d));if(sch){if(isDone(k,id))n++;else break}d=addD(d,-1)}return n};
 
-      <div class="hero-scroll" aria-hidden="true">
-        <span class="line"></span>
-        <span>Scroll</span>
-      </div>
-    </header>
+// ---------- Vista Hoy ----------
+let sel=iso(new Date());
+function renderHoy(){
+ const now=new Date(),tIso=iso(now),nm=now.getHours()*60+now.getMinutes(),mon=monOf(parse(sel)),sd=parse(sel);
+ document.getElementById('dayTitle').textContent=sel===tIso?'Hoy':`${DL[dow(sd)]} ${sd.getDate()} ${MN[sd.getMonth()]}`;
+ document.getElementById('strip').innerHTML=[0,1,2,3,4,5,6].map(i=>{const d=addD(mon,i),k=iso(d);return`<button class="dayb${k===sel?' sel':''}${k===tIso?' today':''}" data-d="${k}"><small>${DN[i]}</small><div class="ring" style="--p:${pctOf(k)}"><span>${d.getDate()}</span></div></button>`}).join('');
+ const it=itemsFor(sel),done=it.filter(h=>isDone(sel,h.id)).length,p=it.length?Math.round(done/it.length*100):0;
+ document.getElementById('pct').textContent=p+'%';document.getElementById('cnt').textContent=`${done} de ${it.length} completadas`;document.getElementById('bar').style.width=p+'%';
+ const secs=[['Madrugada',0,360],['Día',360,1080],['Noche',1080,1441]];
+ document.getElementById('list').innerHTML=secs.map(([n,a,b])=>{const xs=it.filter(h=>toMin(h.s)>=a&&toMin(h.s)<b);if(!xs.length)return'';
+  return`<div class="sec">${n}</div><div class="list">`+xs.map(h=>{const c=C[h.c],dn=isDone(sel,h.id),on=sel===tIso&&nm>=toMin(h.s)&&nm<toMin(h.e),st=streak(sel,h.id),title=typeof h.t==='function'?h.t(dow(sd)):h.t;
+   return`<button class="h${dn?' done':''}${on?' now':''}" data-id="${h.id}" style="--c1:${c[0]};--c2:${c[1]}">${st>1?`<span class="st">🔥 ${st} días</span>`:''}<span class="em">${h.em}</span><span class="tx"><b>${esc(title)}${on?'<span class="now-tag">Ahora</span>':''}</b><small>${t12(h.s)} – ${t12(h.e)}</small></span><span class="ck">${dn?'✓':''}</span></button>`}).join('')+'</div>'}).join('');
+}
+document.getElementById('strip').addEventListener('click',e=>{const b=e.target.closest('.dayb');if(b){sel=b.dataset.d;renderHoy()}});
+document.getElementById('list').addEventListener('click',e=>{const b=e.target.closest('.h');if(!b)return;const id=b.dataset.id,L=DONE[sel]||(DONE[sel]=[]),i=L.indexOf(id);if(i<0)L.push(id);else L.splice(i,1);if(!L.length)delete DONE[sel];save();
+ if(navigator.vibrate)try{navigator.vibrate(10)}catch(_){};renderHoy()});
+document.getElementById('goToday').onclick=()=>{sel=iso(new Date());renderHoy()};
 
-    <section class="statement">
-      <p data-split="lines">Six garments. One idea — nothing hides how it's made.</p>
-    </section>
+// ---------- Vista Semana ----------
+let wMon=monOf(new Date());
+function renderSem(){
+ const tIso=iso(new Date()),days=[0,1,2,3,4,5,6].map(i=>iso(addD(wMon,i))),last=addD(wMon,6);
+ document.getElementById('wRange').textContent=`${wMon.getDate()} ${MN[wMon.getMonth()]} – ${last.getDate()} ${MN[last.getMonth()]}`;
+ const pcts=days.map(pctOf),best=Math.max(...pcts);
+ let g='<div></div>'+days.map((k,i)=>`<div class="hd${k===tIso?' t':''}" data-d="${k}">${DN[i]}<br>${parse(k).getDate()}</div>`).join('');
+ GROUPS.forEach(gr=>{const c=C[GEM[gr].c];g+=`<div class="rn">${GEM[gr].em} ${gr}</div>`;
+  days.forEach(k=>{const xs=itemsFor(k).filter(h=>h.g===gr);if(!xs.length){g+='<div class="sq na"></div>';return}
+   const n=xs.filter(h=>isDone(k,h.id)).length;g+=`<div class="sq${n===xs.length?' done':n?' part':''}" style="--c1:${c[0]};--c3:${c[2]}"></div>`})});
+ g+=`<div class="rn">⭐ Mejor día</div>`+pcts.map(p=>`<div class="star${best>0&&p===best?' on':''}">⭐</div>`).join('');
+ document.getElementById('grid').innerHTML=g;
+ const tot=days.reduce((a,k)=>a+itemsFor(k).length,0),dn=days.reduce((a,k)=>a+itemsFor(k).filter(h=>isDone(k,h.id)).length,0);
+ const bi=best>0?pcts.indexOf(best):-1;
+ // mejor racha: días seguidos al 100% (histórico)
+ let br=0,cur=0;const keys=Object.keys(DONE).sort();if(keys.length){for(let d=parse(keys[0]);d<=new Date();d=addD(d,1)){if(pctOf(iso(d))===100){cur++;br=Math.max(br,cur)}else cur=0}}
+ document.getElementById('stats').innerHTML=`<div><b style="color:#ef6f86">${tot?Math.round(dn/tot*100):0}%</b><small>Cumplido</small></div><div><b style="color:#7db9ec">${bi<0?'–':DN[bi]}</b><small>Mejor día</small></div><div><b style="color:#5fc9b8">${dn}</b><small>Hechas</small></div><div><b style="color:#e8a94f">${br}</b><small>Racha 100%</small></div>`;
+}
+document.getElementById('wPrev').onclick=()=>{wMon=addD(wMon,-7);renderSem()};
+document.getElementById('wNext').onclick=()=>{wMon=addD(wMon,7);renderSem()};
+document.getElementById('grid').addEventListener('click',e=>{const h=e.target.closest('.hd');if(h&&h.dataset.d){sel=h.dataset.d;show('hoy')}});
 
-    <main id="drop">
-      <section class="moment" id="m1" data-product="bomber">
-        <div class="wrap moment-inner">
-          <div class="moment-media" data-open-product>
-            <div class="figure photo"><img src="/images/bomber.jpg" alt="Slashed Bomber jacket" loading="lazy" /></div>
-          </div>
-          <div class="moment-caption">
-            <span class="moment-index">01 / 06</span>
-            <h2 class="moment-name" data-split="lines" data-open-product>Slashed Bomber</h2>
-            <p class="moment-meta">Waxed cotton — hand-cut vents at the seam</p>
-            <p class="moment-price">$780</p>
-            <button type="button" class="moment-link" data-open-product>View piece</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment reverse" id="m2" data-product="hoodie">
-        <div class="wrap moment-inner">
-          <div class="moment-media" data-open-product>
-            <div class="figure photo"><img src="/images/hoodie.jpg" alt="Raw-Edge Hoodie" loading="lazy" /></div>
-          </div>
-          <div class="moment-caption">
-            <span class="moment-index">02 / 06</span>
-            <h2 class="moment-name" data-split="lines" data-open-product>Raw-Edge Hoodie</h2>
-            <p class="moment-meta">Double-layer fleece — unfinished hem</p>
-            <p class="moment-price">$340</p>
-            <button type="button" class="moment-link" data-open-product>View piece</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment" id="m3" data-product="denim">
-        <div class="wrap moment-inner">
-          <div class="moment-media" data-open-product>
-            <div class="figure photo"><img src="/images/denim.jpg" alt="WRAPP Denim jeans" loading="lazy" /></div>
-          </div>
-          <div class="moment-caption">
-            <span class="moment-index">03 / 06</span>
-            <h2 class="moment-name" data-split="lines" data-open-product>WRAPP Denim</h2>
-            <p class="moment-meta">Rigid selvedge — structural fray at the knee</p>
-            <p class="moment-price">$420</p>
-            <button type="button" class="moment-link" data-open-product>View piece</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="moment" id="m4" data-product="trench">
-        <div class="wrap moment-inner">
-          <div class="moment-media" data-open-product>
-            <div class="figure photo"><img src="/images/trench.png" alt="Frayed Trench top" loading="lazy" /></div>
-          </div>
-          <div class="moment-caption">
-            <span class="moment-index">04 / 06</span>
-            <h2 class="moment-name" data-split="lines" data-open-product>Frayed Trench</h2>
-            <p class="moment-meta">Brushed cotton — unraveled cuffs</p>
-            <p class="moment-price">$1,240</p>
-            <button type="button" class="moment-link" data-open-product>View piece</button>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <section class="gallery" id="index">
-      <div class="gallery-head wrap">
-        <span class="label">The Full Drop</span>
-        <h2 class="moment-name" style="margin-top:14px;max-width:14ch" data-split="lines">Every piece, side by side.</h2>
-      </div>
-      <div class="gallery-track" id="gallery-track">
-        <article class="gallery-item" data-product="bomber">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/bomber.jpg" alt="Slashed Bomber jacket" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">01</span><h3 class="moment-name" data-open-product>Slashed Bomber</h3><p class="moment-price">$780</p></div>
-        </article>
-        <article class="gallery-item" data-product="hoodie">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/hoodie.jpg" alt="Raw-Edge Hoodie" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">02</span><h3 class="moment-name" data-open-product>Raw-Edge Hoodie</h3><p class="moment-price">$340</p></div>
-        </article>
-        <article class="gallery-item" data-product="denim">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/denim.jpg" alt="WRAPP Denim jeans" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">03</span><h3 class="moment-name" data-open-product>WRAPP Denim</h3><p class="moment-price">$420</p></div>
-        </article>
-        <article class="gallery-item" data-product="trench">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/trench.png" alt="Frayed Trench top" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">04</span><h3 class="moment-name" data-open-product>Frayed Trench</h3><p class="moment-price">$1,240</p></div>
-        </article>
-        <article class="gallery-item" data-product="cargo">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/cargo.jpg" alt="Distressed Cargo jeans" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">05</span><h3 class="moment-name" data-open-product>Distressed Cargo</h3><p class="moment-price">$460</p></div>
-        </article>
-        <article class="gallery-item" data-product="tee">
-          <div class="moment-media" data-open-product><div class="figure photo"><img src="/images/tee.jpg" alt="Torn Layer Tee" loading="lazy" /></div></div>
-          <div class="moment-caption"><span class="moment-index">06</span><h3 class="moment-name" data-open-product>Torn Layer Tee</h3><p class="moment-price">$180</p></div>
-        </article>
-      </div>
-    </section>
-
-    <footer id="footer">
-      <div class="wrap">
-        <div class="footer-top">
-          <div class="footer-brand" data-reveal="footer">
-            <span class="footer-word">WRAPP</span>
-            <p>A deconstruction studio working in raw edges, exposed seams and controlled damage. Los Angeles, since 2024.</p>
-          </div>
-          <div class="footer-col" data-reveal="footer">
-            <h4>Workshop</h4>
-            <address>2117 Violet St<br />Los Angeles, CA 90021</address>
-          </div>
-          <div class="footer-col" data-reveal="footer">
-            <h4>Studio</h4>
-            <address>Nationalestraat 42<br />2000 Antwerpen</address>
-          </div>
-          <div class="footer-col" data-reveal="footer">
-            <h4>Information</h4>
-            <ul>
-              <li><a href="#">Stockists</a></li>
-              <li><a href="#">Wholesale</a></li>
-              <li><a href="#">Press</a></li>
-              <li><a href="#">Careers</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <span>© 2026 WRAPP Studio</span>
-          <span>Drop 01 — Limited Run — No Restock</span>
-        </div>
-      </div>
-    </footer>
-
-    <div class="overlay-scrim" id="overlay-scrim" hidden></div>
-
-    <div class="product-modal" id="product-modal" role="dialog" aria-modal="true" aria-label="Product details" hidden>
-      <button type="button" class="overlay-close" data-close-product aria-label="Close">Close</button>
-      <div class="product-modal-inner">
-        <div class="product-modal-media">
-          <img id="pm-image" src="" alt="" />
-        </div>
-        <div class="product-modal-info">
-          <span class="moment-index" id="pm-index"></span>
-          <h2 class="moment-name" id="pm-name"></h2>
-          <p class="pm-price" id="pm-price"></p>
-          <p class="pm-description" id="pm-description"></p>
-
-          <div class="pm-block">
-            <span class="label">Size</span>
-            <div class="pm-sizes" id="pm-sizes"></div>
-          </div>
-
-          <div class="pm-block">
-            <span class="label">Measurements (cm)</span>
-            <table class="pm-measurements" id="pm-measurements"></table>
-          </div>
-
-          <button type="button" class="btn btn-fill pm-add" id="pm-add">Add to Bag — <span id="pm-add-price"></span></button>
-          <p class="pm-added" id="pm-added" hidden>Added to bag.</p>
-        </div>
-      </div>
-    </div>
-
-    <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping bag" hidden>
-      <div class="cart-head">
-        <h2>Your Bag</h2>
-        <button type="button" class="overlay-close" data-close-cart aria-label="Close">Close</button>
-      </div>
-      <ul class="cart-items" id="cart-items"></ul>
-      <p class="cart-empty" id="cart-empty">Your bag is empty.</p>
-      <div class="cart-foot">
-        <div class="cart-subtotal">
-          <span>Subtotal</span>
-          <span id="cart-subtotal">$0</span>
-        </div>
-        <button type="button" class="btn btn-fill cart-checkout" id="cart-checkout" disabled>Checkout</button>
-      </div>
-    </aside>
-
-    <div class="checkout-modal" id="checkout-modal" role="dialog" aria-modal="true" aria-label="Checkout" hidden>
-      <button type="button" class="overlay-close" data-close-checkout aria-label="Close">Close</button>
-      <form class="checkout-form" id="checkout-form">
-        <span class="label">Shipping Details</span>
-        <h2>Where should this drop?</h2>
-        <div class="checkout-grid">
-          <label>Full name<input type="text" name="fullName" autocomplete="name" required /></label>
-          <label>Email<input type="email" name="email" autocomplete="email" required /></label>
-          <label>Country<input type="text" name="country" autocomplete="country-name" required /></label>
-          <label>City<input type="text" name="city" autocomplete="address-level2" required /></label>
-          <label class="checkout-grid-full">Address<input type="text" name="address" autocomplete="street-address" required /></label>
-          <label>Postal code<input type="text" name="postal" autocomplete="postal-code" required /></label>
-        </div>
-        <p class="checkout-note">Demo project — no real order is placed and no payment is collected.</p>
-        <button type="submit" class="btn btn-fill">Place Order</button>
-      </form>
-      <div class="checkout-confirm" id="checkout-confirm" hidden>
-        <span class="label">Order Received</span>
-        <h2>Thank you.</h2>
-        <p id="checkout-confirm-text"></p>
-        <button type="button" class="btn btn-ghost" data-close-checkout>Close</button>
-      </div>
-    </div>
-
-    <script type="module" src="/src/main.js"></script>
-  </body>
+// ---------- Pestañas ----------
+function show(v){document.getElementById('vHoy').classList.toggle('hide',v!=='hoy');document.getElementById('vSem').classList.toggle('hide',v!=='sem');
+ document.getElementById('tHoy').classList.toggle('on',v==='hoy');document.getElementById('tSem').classList.toggle('on',v==='sem');
+ if(v==='hoy')renderHoy();else{wMon=monOf(parse(sel));renderSem()}window.scrollTo(0,0)}
+document.getElementById('tHoy').onclick=()=>show('hoy');document.getElementById('tSem').onclick=()=>show('sem');
+renderHoy();
+const nowEl=document.querySelector('.h.now');if(nowEl)nowEl.scrollIntoView({block:'center'});
+setInterval(()=>{if(!document.getElementById('vHoy').classList.contains('hide'))renderHoy()},60000);
+})();
+</script>
+</body>
 </html>
